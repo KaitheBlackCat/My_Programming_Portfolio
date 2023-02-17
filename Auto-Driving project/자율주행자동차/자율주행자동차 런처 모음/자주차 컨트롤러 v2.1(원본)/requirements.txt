@@ -1,0 +1,7 @@
+imagezmq==1.1.1
+imutils==0.5.3
+numpy==1.19.0
+opencv-python==4.3.0.36
+Pillow==7.2.0
+pyzmq==19.0.1
+scipy==1.5.2

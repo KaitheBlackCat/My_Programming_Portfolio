@@ -1,0 +1,106 @@
+    if left and right :
+    	status = ONSTRAIGHT
+
+    if status is ONSTRAIGHT:
+        if right and left:
+            if debug:
+                print('case 1,2 / ONSTRAIGHT')
+            #if getLean(rightLane) < 1:
+            #    if debug:
+            #        print('right lean exception')
+            #    command = prevComm
+            if H2LD != 160 and H2RD != 160:
+                centerPoint_X = (320 - H2LD + H2RD)/2
+                if debug: print('centerPoint_X - H2 : %d' % centerPoint_X )
+            elif H3LD != 160 and H3RD != 160:
+                centerPoint_X = (320 - H3LD + H3RD)/2
+                if debug: print('centerPoint_X - H3 : %d' % centerPoint_X )
+            else:
+                return prevComm, status, light
+
+            if centerPoint_X - center > 5:
+                command = 'S1160E'
+                if centerPoint_X - center > 60:
+                    command = 'S1170E'
+            elif center - centerPoint_X > 5:
+                command = 'S1140E'
+                if center - centerPoint_X > 60:
+                    command = 'S1130E'
+            else:
+                command = 'S1150E'
+
+        elif (right and not left) or (right and not left and end) :
+            status = ONLEFT
+
+        elif (left and not right) or (left and not right and end) :
+            status = ONRIGHT
+
+
+    #좌회전 상황
+    elif status is ONLEFT:
+        if right and not left and end: # case 3
+            if debug:
+                print('case 3 / ONLEFT')
+
+            if V3D < 90:
+                command = 'S1120E'
+        elif right and not left:
+            command = 'S1140E'
+        elif right and left:
+            if debug:
+                print('case 1,2 / ONLEFT')
+            if (H2LD > 60 and H2RD > 60) or (H3LD > 65 and H3RD > 65):
+                if debug:
+                    print('Status changed left to Straight')
+                command = 'S1150E'
+                status = ONSTRAIGHT
+        elif end:
+        	if getLean(endLane) > (3/8):
+        		if debug: print("Exception")
+        		command = prevComm
+
+        	print('only end line detected')
+        	if V4D < 80:
+        		command = 'S1120E'
+        #elif not right and left:
+        #    status = ONSCORNER
+        else:
+            print('out of range')
+            command = prevComm
+    #우회전 상황
+    elif status is ONRIGHT:
+        if not right and left and end: # case 4
+            if debug:
+                print('case 4 / ONRIGHT')
+            if V4D < 70:
+                command = 'S1180E'
+        elif not right and left:
+            command = 'S1140E'
+        elif right and left:
+            if debug:
+                print('case 1,2 / ONRIGHT')
+            if (H2LD > 60 and H2RD > 60) or (H3LD > 65 and H3RD > 65):
+                if debug:
+                    print('Status changed right to Straight')
+                command = 'S1150E'
+                status = ONSTRAIGHT
+        elif end:
+            print('only end line detected')
+            command = 'S1180E'
+        #elif right and not left:
+        #    status = ONSCORNER
+        else:
+            print('out of range')
+            command = prevComm   
+    #S코너 상황
+    #elif status is ONSCORNER:
+    #    print('ONSCORNER')
+    #    command = 'S1185E'
+    #    if right and left:
+    #        if debug:
+    #            print('case 1,2 / ONRIGHT')
+    #        command = 'S1150E'
+    #        status = ONSTRAIGHT
+
+
+    return command, status, light
