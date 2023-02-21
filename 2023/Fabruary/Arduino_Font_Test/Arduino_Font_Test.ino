@@ -8,7 +8,8 @@
 #define DISPLAY_HEIGHT 128
 #define ENABLE_SECOND true
 
-U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_NO_ACK|U8G_I2C_OPT_FAST);
+//U8GLIB_SSD1306_128X64 u8g(U8G_I2C_OPT_DEV_0|U8G_I2C_OPT_NO_ACK|U8G_I2C_OPT_FAST);
+U8GLIB_NHD27OLED_BW u8g(13, 11, 10, 9);
 RTC_DS3231 rtc;
 
 char daysOfTheWeek[7][12] = {"SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"};
@@ -19,18 +20,9 @@ void setup() {
 
     rtc.begin();
 
-    if (rtc.lostPower()) {
-        //Serial.println("RTC lost power, let's set the time!");
-        // When time needs to be set on a new device, or after a power loss, the
-        // following line sets the RTC to the date & time this sketch was compiled
-        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-        // This line sets the RTC with an explicit date & time, for example to set
-        // January 21, 2014 at 3am you would call:
-        // rtc.adjust(DateTime(2014, 1, 21, 3, 0, 0));
-    }
+    if (rtc.lostPower()) rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
     rtc.disable32K();
-
 
     if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
         u8g.setColorIndex(255);     // white
