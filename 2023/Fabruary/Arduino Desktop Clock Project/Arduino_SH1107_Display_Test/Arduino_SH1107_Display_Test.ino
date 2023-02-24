@@ -27,11 +27,11 @@
 #include <Wire.h>
 #endif
 
-#define RST 8
-#define CS 10
-#define DC 9
+#define RST 16
+#define CS 15
+#define DC 0
 
-U8G2_SH1107_PIMORONI_128X128_1_4W_HW_SPI u8g2(U8G2_R0, CS, DC, RST);
+U8G2_SH1107_SEEED_128X128_1_4W_HW_SPI u8g2(U8G2_R0, CS, DC, RST);
 
 void u8g2_prepare(void) {
   u8g2.setFont(u8g2_font_6x10_tf);
