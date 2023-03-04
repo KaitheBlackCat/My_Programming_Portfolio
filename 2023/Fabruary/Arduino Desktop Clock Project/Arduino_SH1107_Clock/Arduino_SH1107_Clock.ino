@@ -20,7 +20,7 @@
  *                                                                                                                                                 *
  * ⓒ 2023. Young-Chan Jung all rights reserved.                                                                                                   *
  *                                                                                                                                                 *
- * If you have any questions, ask me freely to piggy77567@gmail.com.                                                                              *
+ * If you have any questions, ask me freely to piggy77567@gmail.com.                                                                               *
  *                                                                                                                                                 *
  ***************************************************************************************************************************************************/
 
